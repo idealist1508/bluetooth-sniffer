@@ -1,7 +1,11 @@
 // https://developer.android.com/reference/android/bluetooth/BluetoothGattCallback
 
-const BluetoothGattCallback = Java.use("h.a.j.a.a");
+//const BluetoothGattCallback = Java.use("h.a.j.a.a");
+const BluetoothGattCallback = Java.use("com.garmin.device.ble.a");
+
 const BluetoothGattCharacteristic = Java.use("android.bluetooth.BluetoothGattCharacteristic");
+const BluetoothGattService = Java.use("android.bluetooth.BluetoothGattService");
+
 // const String = Java.use("java.lang.String");
 
 const buffersIn = {};
@@ -52,6 +56,7 @@ const logBinary = function(data) {
 };
 
 onCharacteristicRead.implementation = function(gatt, characteristic, status) {
+	console.log(1);
 	const value = BluetoothGattCharacteristic.getValue.call(characteristic);
 
 	console.log(value);
@@ -60,11 +65,14 @@ onCharacteristicRead.implementation = function(gatt, characteristic, status) {
 };
 
 onCharacteristicChanged.implementation = function(gatt, characteristic) {
+	console.log(2);
 	const value = BluetoothGattCharacteristic.getValue.call(characteristic);
 
 	const buffer = Java.array("byte", value);
 
 	const uuid = BluetoothGattCharacteristic.getUuid.call(characteristic);
+        const service = BluetoothGattCharacteristic.getService.call(characteristic);
+        const serviceUuid = BluetoothGattService.getUuid.call(service);
 
 	const packet = [];
 
@@ -76,7 +84,7 @@ onCharacteristicChanged.implementation = function(gatt, characteristic) {
 		packet.push(buffer[i]);
 	}
 
-	console.log(`Characteristic ${uuid} changed`);
+	console.log(`Characteristic ${uuid} of service ${serviceUuid} changed`);
 	logBinary(packet);
 
 	buffersIn[uuid].push(packet);
@@ -85,11 +93,14 @@ onCharacteristicChanged.implementation = function(gatt, characteristic) {
 };
 
 onCharacteristicWrite.implementation = function(gatt, characteristic, status) {
+	console.log(3);
 	const value = BluetoothGattCharacteristic.getValue.call(characteristic);
 
 	const buffer = Java.array("byte", value);
 
 	const uuid = BluetoothGattCharacteristic.getUuid.call(characteristic);
+        const service = BluetoothGattCharacteristic.getService.call(characteristic);
+        const serviceUuid = BluetoothGattService.getUuid.call(service);
 
 	const packet = [];
 
@@ -103,7 +114,7 @@ onCharacteristicWrite.implementation = function(gatt, characteristic, status) {
 
 	buffers[uuid].push(packet);
 
-	console.log(`Characteristic ${uuid} written`);
+	console.log(`Characteristic ${uuid} of service ${serviceUuid} written`);
 	logBinary(packet);
 
 	onCharacteristicWrite.call(this, gatt, characteristic, status);

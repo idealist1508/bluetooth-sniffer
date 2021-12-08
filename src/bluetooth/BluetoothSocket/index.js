@@ -4,6 +4,7 @@ const getOutputStream = BluetoothSocket.getOutputStream;
 const getInputStream = BluetoothSocket.getInputStream;
 
 getOutputStream.implementation = function() {
+	console.log(11);
 	const outputStream = getOutputStream.call(this);
 
 	console.log(outputStream);
@@ -12,6 +13,7 @@ getOutputStream.implementation = function() {
 };
 
 getInputStream.implementation = function() {
+	console.log(12);
 	const inputStream = getInputStream.call(this);
 
 	return inputStream;

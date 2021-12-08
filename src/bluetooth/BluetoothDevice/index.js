@@ -18,21 +18,25 @@ const getName = BluetoothDevice.getName;
 const getBondState = BluetoothDevice.getBondState;
 const getType = BluetoothDevice.getType;
 
-getAddress.implementation = function() {
-	return devices.getDeviceInfo(this).address;
-};
-
-getName.implementation = function() {
-	return devices.getDeviceInfo(this).name;
-};
-
-getBondState.implementation = function() {
-	return devices.getDeviceInfo(this).bondState;
-};
-
-getType.implementation = function() {
-	return devices.getDeviceInfo(this).type;
-};
+//getAddress.implementation = function() {
+//	console.log(4);
+//	return devices.getDeviceInfo(this).address;
+//};
+//
+//getName.implementation = function() {
+//	console.log(5);
+//	return devices.getDeviceInfo(this).name;
+//};
+//
+//getBondState.implementation = function() {
+//	console.log(6);
+//	return devices.getDeviceInfo(this).bondState;
+//};
+//
+//getType.implementation = function() {
+//	console.log(7);
+//	return devices.getDeviceInfo(this).type;
+//};
 
 const devices = {
 	byName: {},

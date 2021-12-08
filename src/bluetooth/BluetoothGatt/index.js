@@ -7,6 +7,7 @@ const getDevice = BluetoothGatt.getDevice;
 const getServices = BluetoothGatt.getServices;
 
 getDevice.implementation = function() {
+	console.log(8);
 	const device = getDevice.call(this);
 
 	devices.getDeviceInfo(device);
@@ -15,6 +16,7 @@ getDevice.implementation = function() {
 };
 
 getServices.implementation = function() {
+	console.log(9);
 	const services = getServices.call(this);
 
 	const iter = services.iterator();
