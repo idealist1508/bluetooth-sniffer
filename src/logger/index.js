@@ -91,24 +91,25 @@ function traceMethod(targetClassMethod) {
                         arg = s.join('');
                     }
                 }
-                log.args.push({ i: j, o: arg, s: arg ? arg.toString(): 'null'});
-		if (arg ? arg.toString().includes("isUserSignedIn") : false) skipLog = true;
-		if (arg ? arg.toString().includes("http") : false) skipLog = true;
-		if (arg ? arg.toString().includes("garmin.com") : false) skipLog = true;
+                log.args.push({ s: arg ? arg.toString(): 'null'});
+                //log.args.push({ i: j, o: arg, s: arg ? arg.toString(): 'null'});
+                if (arg ? arg.toString().includes("isUserSignedIn") : false) skipLog = true;
+                if (arg ? arg.toString().includes("http") : false) skipLog = true;
+                if (arg ? arg.toString().includes("garmin.com") : false) skipLog = true;
             }
 
             var retval;
             try {
                 retval = this[targetMethod].apply(this, arguments); // might crash (Frida bug?)
-                log.returns = { val: retval, str: retval ? retval.toString() : null };
+//                log.returns = { val: retval, str: retval ? retval.toString() : null };
             } catch (e) {
                 console.error(e);
             }
 
-	    if (!skipLog){
-		LOG(log, { c: Color.Yellow });
-		printBacktrace();
-	    }
+            if (!skipLog) {
+                LOG(log, { c: Color.Yellow });
+                //printBacktrace();
+            }
             return retval;
         }
     }
